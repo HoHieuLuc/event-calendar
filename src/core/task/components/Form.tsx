@@ -54,7 +54,7 @@ const Form = ({ onSubmit, initialValues, loading }: Props) => {
                 color: 'red',
                 message: 'Start time must be before end time',
             });
-        }        
+        }
 
         onSubmit(values, () => taskForm.reset());
     };
@@ -109,12 +109,12 @@ const Form = ({ onSubmit, initialValues, loading }: Props) => {
                         format='12'
                         {...taskForm.getInputProps('finishTime')}
                     />
-                    <Checkbox
-                        label='Mark as Completed'
-                        checked={taskForm.values.done}
-                        {...taskForm.getInputProps('done')}
-                    />
                 </SimpleGrid>
+                <Checkbox
+                    label='Mark as Completed'
+                    checked={taskForm.values.done}
+                    {...taskForm.getInputProps('done')}
+                />
                 <Center>
                     <Button type='submit' uppercase loading={loading}>
                         Submit
