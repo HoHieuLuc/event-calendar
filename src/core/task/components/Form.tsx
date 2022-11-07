@@ -11,7 +11,7 @@ import { DatePicker, TimeInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 
-import { getExactHour, mergeDateAndTime } from '~/lib/common';
+import { getExactHour, mergeDateAndTime } from '~/lib/dates';
 
 import { Task, TaskForm } from '../task.type';
 
