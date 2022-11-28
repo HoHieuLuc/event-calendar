@@ -29,14 +29,13 @@ const AppHeader = ({ onBurgerClick }: Props) => {
             >
                 <ActionIcon
                     mr='xl'
-                    radius='xl'
                     variant='transparent'
                     sx={{
                         '&:hover': {
                             backgroundColor: 'rgba(255, 255, 255, 0.1)',
                         },
                     }}
-                    size='xl'
+                    size='sm'
                     onClick={onBurgerClick}
                 >
                     <IconMenu2 color='white' />

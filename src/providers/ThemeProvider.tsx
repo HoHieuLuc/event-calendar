@@ -21,7 +21,7 @@ declare module '@mantine/core' {
 
 const theme: MantineThemeOverride = {
     other: {
-        headerHeight: 60,
+        headerHeight: 40,
         textShadow:
             '0 0 2px black, 0 0 2px black, 0 0 2px black, 0 0 2px black',
         appShell: {

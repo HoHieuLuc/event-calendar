@@ -1,4 +1,4 @@
-import { Box, NavLink, Text } from '@mantine/core';
+import { Box, Center, NavLink, Text } from '@mantine/core';
 import { Link, useLocation } from 'react-router-dom';
 
 import { navbarRoutes } from '~/router/router';
@@ -23,9 +23,9 @@ const AppNavbar = () => {
 
     return (
         <Box>
-            <Box
-                p={15}
+            <Center
                 sx={(theme) => ({
+                    justifyContent: 'start',
                     height: theme.other.headerHeight,
                     borderBottom:
                         theme.colorScheme === 'light'
@@ -33,10 +33,10 @@ const AppNavbar = () => {
                             : `1px solid ${theme.colors.gray[7]}`,
                 })}
             >
-                <Text lineClamp={1} weight={500} size='xl'>
+                <Text pl='sm' lineClamp={1} weight={500} size='md'>
                     Event Calendar
                 </Text>
-            </Box>
+            </Center>
             <Box>{navLinkElements}</Box>
         </Box>
     );
