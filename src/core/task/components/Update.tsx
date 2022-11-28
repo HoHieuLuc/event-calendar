@@ -1,4 +1,4 @@
-import { showNotification } from '@mantine/notifications';
+import { Button, Group } from '@mantine/core';
 
 import taskHook from '../task.hook';
 import { Task } from '../task.type';
@@ -9,27 +9,19 @@ interface Props {
 }
 
 const Update = ({ data }: Props) => {
-    const { mutate, isLoading } = taskHook.useUpdate();
+    const { mutate: updateTask, isLoading: updateLoading } = taskHook.useUpdate();
+    const { mutate: removeTask, isLoading: removeLoading } = taskHook.useRemove();
 
     const handleUpdate = (values: Omit<Task, 'id'>) => {
-        mutate(
-            {
-                id: data.id,
-                ...values,
-            },
-            {
-                onSuccess: (data) => showNotification({
-                    title: 'Info',
-                    message: `Task ${data.title} updated`
-                }),
-            }
-        );
+        updateTask({
+            id: data.id as number,
+            ...values,
+        });
     };
 
     return (
         <Form
             onSubmit={handleUpdate}
-            loading={isLoading}
             initialValues={{
                 ...data,
                 startDate: new Date(data.start),
@@ -37,6 +29,22 @@ const Update = ({ data }: Props) => {
                 finishDate: new Date(data.end),
                 finishTime: new Date(data.end),
             }}
+            formBottomSection={
+                <Group align='center' position='center'>
+                    <Button
+                        type='button'
+                        uppercase
+                        color='red'
+                        onClick={() => removeTask(data.id as number)}
+                        loading={removeLoading}
+                    >
+                        Delete
+                    </Button>
+                    <Button type='submit' uppercase loading={updateLoading}>
+                        Submit
+                    </Button>
+                </Group>
+            }
         />
     );
 };

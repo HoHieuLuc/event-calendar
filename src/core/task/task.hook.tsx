@@ -1,10 +1,6 @@
-import { openModal } from '@mantine/modals';
-import {
-    QueryClient,
-    useMutation,
-    useQuery,
-    useQueryClient,
-} from '@tanstack/react-query';
+import { closeAllModals, openModal } from '@mantine/modals';
+import { showNotification } from '@mantine/notifications';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import Update from './components/Update';
 import taskService from './task.service';
@@ -14,35 +10,59 @@ const QUERY_KEYS = {
     list: ['task', 'list'],
 };
 
-const sharedOptions = (queryClient: QueryClient) => ({
-    onSuccess: () => queryClient.invalidateQueries(QUERY_KEYS.list),
-    onError: () => localStorage.removeItem('tasks'),
+const sharedOptions = () => ({
+    onError: (error: Error) =>
+        showNotification({
+            title: 'Error',
+            color: 'red',
+            message: error.message,
+        }),
 });
 
 const useAll = () => {
-    return useQuery<Array<Task>>(QUERY_KEYS.list, taskService.getAll, {
-        onError: () => localStorage.removeItem('tasks'),
-    });
+    return useQuery<Array<Task>>(QUERY_KEYS.list, taskService.getAll);
 };
 
 const useCreate = () => {
     const queryClient = useQueryClient();
     return useMutation<Task, Error, CreateTaskVars>(taskService.create, {
-        ...sharedOptions(queryClient),
+        ...sharedOptions(),
+        onSuccess: (data) => {
+            showNotification({
+                title: 'Info',
+                message: `Task ${data.title} created`,
+            });
+            return queryClient.invalidateQueries(QUERY_KEYS.list);
+        },
     });
 };
 
 const useUpdate = () => {
     const queryClient = useQueryClient();
     return useMutation<Task, Error, UpdateTaskVars>(taskService.update, {
-        ...sharedOptions(queryClient),
+        ...sharedOptions(),
+        onSuccess: (data) => {
+            showNotification({
+                title: 'Info',
+                message: `Task ${data.title} updated`,
+            });
+            return queryClient.invalidateQueries(QUERY_KEYS.list);
+        },
     });
 };
 
 const useRemove = () => {
     const queryClient = useQueryClient();
-    return useMutation<void, Error, number>(taskService.remove, {
-        ...sharedOptions(queryClient),
+    return useMutation<Task, Error, number>(taskService.remove, {
+        ...sharedOptions(),
+        onSuccess: (data) => {
+            showNotification({
+                title: 'Info',
+                message: `Task ${data.title} deleted`,
+            });
+            closeAllModals();
+            return queryClient.invalidateQueries(QUERY_KEYS.list);
+        },
     });
 };
 
@@ -53,6 +73,14 @@ const useUpdateModal = () => {
             children: <Update data={task} />,
             overlayBlur: 1,
             centered: true,
+            styles: (theme) => ({
+                modal: {
+                    width: '60%',
+                    [theme.fn.smallerThan('md')]: {
+                        width: '100%',
+                    },
+                },
+            }),
         });
 };
 

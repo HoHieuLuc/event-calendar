@@ -1,4 +1,4 @@
-import { showNotification } from '@mantine/notifications';
+import { Button, Center } from '@mantine/core';
 
 import taskHook from '../task.hook';
 import { Task } from '../task.type';
@@ -9,17 +9,22 @@ const Create = () => {
 
     const handleCreate = (values: Omit<Task, 'id'>, callback?: () => void) => {
         mutate(values, {
-            onSuccess: (data) => {
-                callback?.();
-                showNotification({
-                    title: 'Info',
-                    message: `Task ${data.title} created`,
-                });
-            },
+            onSuccess: callback
         });
     };
 
-    return <Form onSubmit={handleCreate} loading={isLoading} />;
+    return (
+        <Form
+            onSubmit={handleCreate}
+            formBottomSection={
+                <Center>
+                    <Button type='submit' uppercase loading={isLoading}>
+                        Submit
+                    </Button>
+                </Center>
+            }
+        />
+    );
 };
 
 export default Create;

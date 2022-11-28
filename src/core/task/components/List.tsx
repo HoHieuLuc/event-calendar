@@ -1,6 +1,5 @@
 import { ActionIcon, Card, Grid, Group, Text, TextInput } from '@mantine/core';
 import { useInputState } from '@mantine/hooks';
-import { showNotification } from '@mantine/notifications';
 import { IconPencil, IconX } from '@tabler/icons';
 
 import taskHook from '../task.hook';
@@ -11,13 +10,7 @@ const Item = ({ data }: { data: Task }) => {
     const openUpdateModal = taskHook.useUpdateModal();
 
     const removeTask = () => {
-        mutate(data.id, {
-            onSuccess: () =>
-                showNotification({
-                    title: 'Info',
-                    message: `Task ${data.title} deleted`,
-                }),
-        });
+        mutate(data.id as number);
     };
 
     return (

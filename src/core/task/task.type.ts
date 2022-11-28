@@ -1,6 +1,7 @@
 export interface Task {
-    id: number;
+    id?: number;
     title: string;
+    content: string;
     start: Date;
     end: Date;
     done: boolean;
@@ -9,6 +10,7 @@ export interface Task {
 
 export interface TaskForm {
     title: string;
+    content: string;
     startDate: Date;
     startTime: Date;
     finishDate: Date;
@@ -19,4 +21,6 @@ export interface TaskForm {
 
 export type CreateTaskVars = Omit<Task, 'id'>;
 
-export type UpdateTaskVars = Task;
+export interface UpdateTaskVars extends Task {
+    id: number;
+};
