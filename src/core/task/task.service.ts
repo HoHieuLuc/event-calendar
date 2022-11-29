@@ -4,7 +4,7 @@ import { CreateTaskVars, UpdateTaskVars } from './task.type';
 
 const getAll = async () => {
     const db = await dbPromise;
-    const tasks = db.getAll('task');
+    const tasks = await db.getAll('task');
     return tasks;
 };
 
