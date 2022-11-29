@@ -115,17 +115,19 @@ const Form = ({ onSubmit, initialValues, formBottomSection }: Props) => {
                             />
                         </Group>
                     </Input.Label>
-                    <Paper
-                        dangerouslySetInnerHTML={{
-                            __html: editor?.getHTML() || '',
-                        }}
-                        withBorder
-                        p={15}
-                        display={previewMode ? 'block' : 'none'}
-                    />
-                    <Box display={previewMode ? 'none' : 'block'}>
-                        <RTE editor={editor} />
-                    </Box>
+                    {previewMode ? (
+                        <Paper
+                            dangerouslySetInnerHTML={{
+                                __html: editor?.getHTML() || '',
+                            }}
+                            withBorder
+                            p={15}
+                        />
+                    ) : (
+                        <Box>
+                            <RTE editor={editor} />
+                        </Box>
+                    )}
                 </Input.Wrapper>
                 <ColorInput
                     format='rgb'

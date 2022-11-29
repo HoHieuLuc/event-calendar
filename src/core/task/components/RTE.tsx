@@ -1,6 +1,6 @@
 import { RichTextEditor } from '@mantine/tiptap';
 import { Editor } from '@tiptap/core';
-import { BubbleMenu } from '@tiptap/react';
+import { useMemo } from 'react';
 
 const RTEControls = () => {
     return (
@@ -69,14 +69,13 @@ interface Props {
 }
 
 const RTE = ({ editor }: Props) => {
+    const controls = useMemo(() => <RTEControls />, []);
     return (
         <RichTextEditor editor={editor}>
             <RichTextEditor.Toolbar>
-                <RTEControls />
+                {controls}
             </RichTextEditor.Toolbar>
-            {editor && <BubbleMenu editor={editor}>
-                <RTEControls />
-            </BubbleMenu>}
+            
             <RichTextEditor.Content />
         </RichTextEditor>
     );
