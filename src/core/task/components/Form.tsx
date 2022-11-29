@@ -92,7 +92,10 @@ const Form = ({ onSubmit, initialValues, formBottomSection }: Props) => {
             });
         }
 
-        onSubmit(values, () => taskForm.reset());
+        onSubmit(values, () => {
+            taskForm.reset();
+            editor?.commands.setContent(initialValues?.content);
+        });
     };
 
     return (
