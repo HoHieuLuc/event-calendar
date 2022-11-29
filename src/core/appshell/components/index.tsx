@@ -1,5 +1,5 @@
 import { Box, Overlay, useMantineTheme } from '@mantine/core';
-import { useClickOutside, useMediaQuery } from '@mantine/hooks';
+import { useClickOutside, useDebouncedValue, useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
 
 import AppContent from './AppContent/AppContent';
@@ -11,10 +11,9 @@ export default function MainAppShell() {
     const [opened, setOpened] = useState(true);
     const theme = useMantineTheme();
 
-    const smallerThanMd = useMediaQuery(
-        `(max-width: ${theme.breakpoints.md + 1}px)`
-    );
+    const smallerThanMd = useMediaQuery(`(max-width: ${theme.breakpoints.md + 1}px)`);
     const navbarRef = useClickOutside(() => smallerThanMd && setOpened(false));
+    const [overlayVisible] = useDebouncedValue(smallerThanMd && opened, 300);
 
     const { classes } = useStyles({ opened });
 
@@ -26,7 +25,7 @@ export default function MainAppShell() {
             <Box ml='auto' className={classes.content}>
                 <AppHeader onBurgerClick={() => setOpened(!opened)} />
                 <AppContent />
-                {smallerThanMd && opened && (
+                {overlayVisible && (
                     <Overlay
                         opacity={0.6}
                         zIndex={theme.other.appShell.overlayZindex}
