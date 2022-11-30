@@ -1,6 +1,7 @@
+import { useMantineTheme } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { RichTextEditor } from '@mantine/tiptap';
 import { Editor } from '@tiptap/core';
-import { useMemo } from 'react';
 
 const RTEControls = () => {
     return (
@@ -69,13 +70,14 @@ interface Props {
 }
 
 const RTE = ({ editor }: Props) => {
-    const controls = useMemo(() => <RTEControls />, []);
+    const theme = useMantineTheme();
+    const smallerThanSm = useMediaQuery(`(min-width: ${theme.breakpoints.sm}px)`);
     return (
         <RichTextEditor editor={editor}>
-            <RichTextEditor.Toolbar>
-                {controls}
-            </RichTextEditor.Toolbar>
-            
+            {smallerThanSm && <RichTextEditor.Toolbar>
+                <RTEControls />
+            </RichTextEditor.Toolbar>}
+
             <RichTextEditor.Content />
         </RichTextEditor>
     );
