@@ -12,9 +12,7 @@ const localizer = momentLocalizer(moment);
 
 const EventCalendar = () => {
     const theme = useMantineTheme();
-    const smallerThanSm = useMediaQuery(
-        `(max-width: ${theme.breakpoints.sm + 1}px)`
-    );
+    const smallerThanSm = useMediaQuery(`(max-width: ${theme.breakpoints.sm + 1}px)`);
     const { classes } = useStyles();
 
     const events = dashboardHook.useCalendarEvents();
@@ -22,7 +20,7 @@ const EventCalendar = () => {
     const calendarProps = dashboardHook.useCalendarProps();
 
     return (
-        <AspectRatio ratio={smallerThanSm ? 1 / 1.2 : 4 / 3} sx={classes}>
+        <AspectRatio ratio={smallerThanSm ? 1 / 1.2 : 16 / 10} sx={classes}>
             <Calendar
                 {...calendarProps}
                 localizer={localizer}
