@@ -71,7 +71,13 @@ interface Props {
 
 const RTE = ({ editor }: Props) => {
     const theme = useMantineTheme();
-    const smallerThanSm = useMediaQuery(`(min-width: ${theme.breakpoints.sm}px)`);
+    const smallerThanSm = useMediaQuery(
+        `(min-width: ${theme.breakpoints.sm}px)`,
+        undefined,
+        {
+            getInitialValueInEffect: false,
+        },
+    );
     return (
         <RichTextEditor editor={editor}>
             {smallerThanSm && <RichTextEditor.Toolbar>
