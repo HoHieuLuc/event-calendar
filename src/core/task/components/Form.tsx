@@ -16,6 +16,7 @@ import { showNotification } from '@mantine/notifications';
 import { Link } from '@mantine/tiptap';
 import Color from '@tiptap/extension-color';
 import Highlight from '@tiptap/extension-highlight';
+import Image from '@tiptap/extension-image';
 import Placeholder from '@tiptap/extension-placeholder';
 import SubScript from '@tiptap/extension-subscript';
 import Superscript from '@tiptap/extension-superscript';
@@ -29,6 +30,7 @@ import { useState } from 'react';
 import { getExactHour, mergeDateAndTime } from '~/lib/dates';
 
 import { Task, TaskForm } from '../task.type';
+import useStyles from './Form.styles';
 import RTE from './RTE';
 
 interface Props {
@@ -38,6 +40,7 @@ interface Props {
 }
 
 const Form = ({ onSubmit, initialValues, formBottomSection }: Props) => {
+    const { classes } = useStyles();
     const editor = useEditor({
         extensions: [
             StarterKit,
@@ -48,6 +51,10 @@ const Form = ({ onSubmit, initialValues, formBottomSection }: Props) => {
             Highlight,
             TextStyle,
             Color,
+            Image.configure({
+                inline: true,
+                allowBase64: true,
+            }),
             TextAlign.configure({ types: ['heading', 'paragraph'] }),
             Placeholder.configure({ placeholder: 'Content' }),
         ],
@@ -127,7 +134,7 @@ const Form = ({ onSubmit, initialValues, formBottomSection }: Props) => {
                             p={15}
                         />
                     ) : (
-                        <Box>
+                        <Box className={classes.rteImage}>
                             <RTE editor={editor} />
                         </Box>
                     )}
