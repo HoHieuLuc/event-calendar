@@ -1,5 +1,4 @@
-import { Box, useMantineTheme } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
+import { Box } from '@mantine/core';
 import { RichTextEditor, useRichTextEditorContext } from '@mantine/tiptap';
 import { IconPhotoPlus } from '@tabler/icons';
 import { Editor } from '@tiptap/core';
@@ -119,19 +118,14 @@ interface Props {
 
 const RTE = ({ editor }: Props) => {
     const { classes } = useStyles();
-    const theme = useMantineTheme();
-    const smallerThanSm = useMediaQuery(`(min-width: ${theme.breakpoints.sm}px)`, undefined, {
-        getInitialValueInEffect: false,
-    });
+
     return (
         <Box className={classes.rte}>
             <RichTextEditor editor={editor}>
-                {smallerThanSm && (
-                    <RichTextEditor.Toolbar>
-                        <RTEControls />
-                    </RichTextEditor.Toolbar>
-                )}
-
+                <RichTextEditor.Toolbar>
+                    <RTEControls />
+                </RichTextEditor.Toolbar>
+                
                 <RichTextEditor.Content />
             </RichTextEditor>
         </Box>

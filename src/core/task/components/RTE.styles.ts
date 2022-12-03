@@ -1,6 +1,6 @@
 import { createStyles } from '@mantine/core';
 
-export default createStyles(() => ({
+export default createStyles((theme) => ({
     rte: {
         '.ProseMirror': {
             img: {
@@ -8,8 +8,13 @@ export default createStyles(() => ({
                 maxWidth: '100%',
                 '&.ProseMirror-selectednode': {
                     border: '3px solid #68cef8',
-                }
-            }
-        }
+                },
+            },
+        },
+        '.mantine-RichTextEditor-toolbar': {
+            [theme.fn.smallerThan('sm')]: {
+                display: 'none',
+            },
+        },
     }
 }));
