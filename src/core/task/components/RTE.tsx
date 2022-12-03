@@ -1,9 +1,11 @@
-import { useMantineTheme } from '@mantine/core';
+import { Box, useMantineTheme } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { RichTextEditor, useRichTextEditorContext } from '@mantine/tiptap';
 import { IconPhotoPlus } from '@tabler/icons';
 import { Editor } from '@tiptap/core';
 import { useRef } from 'react';
+
+import useStyles from './RTE.styles';
 
 const RTEControls = () => {
     return (
@@ -116,20 +118,23 @@ interface Props {
 }
 
 const RTE = ({ editor }: Props) => {
+    const { classes } = useStyles();
     const theme = useMantineTheme();
     const smallerThanSm = useMediaQuery(`(min-width: ${theme.breakpoints.sm}px)`, undefined, {
         getInitialValueInEffect: false,
     });
     return (
-        <RichTextEditor editor={editor}>
-            {smallerThanSm && (
-                <RichTextEditor.Toolbar>
-                    <RTEControls />
-                </RichTextEditor.Toolbar>
-            )}
+        <Box className={classes.rte}>
+            <RichTextEditor editor={editor}>
+                {smallerThanSm && (
+                    <RichTextEditor.Toolbar>
+                        <RTEControls />
+                    </RichTextEditor.Toolbar>
+                )}
 
-            <RichTextEditor.Content />
-        </RichTextEditor>
+                <RichTextEditor.Content />
+            </RichTextEditor>
+        </Box>
     );
 };
 

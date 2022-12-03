@@ -30,7 +30,6 @@ import { useState } from 'react';
 import { getExactHour, mergeDateAndTime } from '~/lib/dates';
 
 import { Task, TaskForm } from '../task.type';
-import useStyles from './Form.styles';
 import RTE from './RTE';
 
 interface Props {
@@ -40,7 +39,6 @@ interface Props {
 }
 
 const Form = ({ onSubmit, initialValues, formBottomSection }: Props) => {
-    const { classes } = useStyles();
     const editor = useEditor({
         extensions: [
             StarterKit,
@@ -134,9 +132,7 @@ const Form = ({ onSubmit, initialValues, formBottomSection }: Props) => {
                             p={15}
                         />
                     ) : (
-                        <Box className={classes.rteImage}>
-                            <RTE editor={editor} />
-                        </Box>
+                        <RTE editor={editor} />
                     )}
                 </Input.Wrapper>
                 <ColorInput

@@ -1,13 +1,13 @@
 import { createStyles } from '@mantine/core';
 
 export default createStyles(() => ({
-    rteImage: {
+    rte: {
         '.ProseMirror': {
             img: {
                 height: 'auto',
                 maxWidth: '100%',
                 '&.ProseMirror-selectednode': {
-                    outline: '3px solid #68cef8',
+                    border: '3px solid #68cef8',
                 }
             }
         }
