@@ -34,6 +34,7 @@ module.exports = {
         '.eslintrc.cjs',
         'vite.config.ts',
         'jest.*.ts',
+        'dev-dist',
     ],
     rules: {
         '@typescript-eslint/semi': [

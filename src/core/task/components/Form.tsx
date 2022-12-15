@@ -12,6 +12,7 @@ import {
 } from '@mantine/core';
 import { DatePicker, TimeInput } from '@mantine/dates';
 import { useForm } from '@mantine/form';
+import { useHotkeys, useWindowEvent } from '@mantine/hooks';
 import { showNotification } from '@mantine/notifications';
 import { Link } from '@mantine/tiptap';
 import Color from '@tiptap/extension-color';
@@ -102,6 +103,16 @@ const Form = ({ onSubmit, initialValues, formBottomSection }: Props) => {
             editor?.commands.setContent(initialValues?.content || '');
         });
     };
+
+    useHotkeys([
+        ['ctrl+S', () => taskForm.onSubmit(submit)()]
+    ]);
+
+    useWindowEvent('keydown', (e) => {
+        if (e.key === 's' && (e.metaKey || e.ctrlKey)) {
+            e.preventDefault();
+        }
+    });
 
     return (
         <form onSubmit={taskForm.onSubmit(submit)}>

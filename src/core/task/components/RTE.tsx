@@ -1,7 +1,7 @@
 import { Box } from '@mantine/core';
 import { RichTextEditor, useRichTextEditorContext } from '@mantine/tiptap';
 import { IconPhotoPlus } from '@tabler/icons';
-import { Editor } from '@tiptap/core';
+import { Editor } from '@tiptap/react';
 import { useRef } from 'react';
 
 import useStyles from './RTE.styles';

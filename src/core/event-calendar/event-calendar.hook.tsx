@@ -10,11 +10,16 @@ import EventCell from './components/EventCell';
 import EventCellHeader from './components/EventCellHeader';
 import EventFourDaysView from './components/EventFourDaysView';
 
+interface EventDragAndDrop {
+    event: Task;
+    start: Date | string;
+    end: Date | string;
+    isAllDay: boolean;
+}
+
 const useCalendarProps = () => {
     const [view, setView] = useState<View>(
-        ['month', 'week', 'day', 'agenda'].includes(
-            localStorage.getItem('calendar-view') || ''
-        )
+        ['month', 'week', 'day', 'agenda'].includes(localStorage.getItem('calendar-view') || '')
             ? (localStorage.getItem('calendar-view') as View)
             : Views.MONTH
     );
@@ -28,10 +33,7 @@ const useCalendarProps = () => {
         },
         [setView]
     );
-    const onNavigate = useCallback(
-        (newDate: Date) => setDate(newDate),
-        [setDate]
-    );
+    const onNavigate = useCallback((newDate: Date) => setDate(newDate), [setDate]);
     const onDrillDown = useCallback(
         (newDate: Date) => {
             setDate(newDate);
@@ -41,10 +43,29 @@ const useCalendarProps = () => {
     );
 
     const openUpdateModal = taskHook.useUpdateModal();
-    const onSelectEvent = useCallback(
-        (task: Task) => openUpdateModal(task),
-        []
-    );
+    const onSelectEvent = useCallback((task: Task) => openUpdateModal(task), []);
+
+    const { mutate: updateTask } = taskHook.useUpdate();
+
+    const onEventDrop = useCallback(({ event, start, end }: EventDragAndDrop) => {
+        updateTask(
+            {
+                ...event,
+                start: new Date(start),
+                end: new Date(end),
+                id: event.id as number,
+            },
+        );
+    }, []);
+
+    const onEventResize = useCallback(({ event, start, end }: EventDragAndDrop) => {
+        updateTask({
+            ...event,
+            start: new Date(start),
+            end: new Date(end),
+            id: event.id as number,
+        });
+    }, []);
 
     const eventPropGetter = useCallback(
         (task: Task) => ({
@@ -71,9 +92,7 @@ const useCalendarProps = () => {
             const style: CSSProperties = {};
             if (isSameDate(_date, new Date())) {
                 style.backgroundColor =
-                    theme.colorScheme === 'dark'
-                        ? theme.colors.violet[9]
-                        : theme.colors.teal[2];
+                    theme.colorScheme === 'dark' ? theme.colors.violet[9] : theme.colors.teal[2];
             }
             return {
                 style,
@@ -109,6 +128,8 @@ const useCalendarProps = () => {
         onView,
         onNavigate,
         onDrillDown,
+        onEventDrop,
+        onEventResize,
         onSelectEvent,
         dayPropGetter,
         eventPropGetter,
